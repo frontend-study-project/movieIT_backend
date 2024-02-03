@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Payload, SignUpDto } from './interface';
+import { UpdateDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,10 @@ export class AuthService {
     if (!existed) return;
 
     throw new HttpException('중복 된 아이디입니다.', HttpStatus.BAD_REQUEST);
+  }
+
+  changeNickname(id: number, updateDto: UpdateDto) {
+    this.userService.update(id, updateDto);
   }
 
   getUserId(authorization: string = '') {
