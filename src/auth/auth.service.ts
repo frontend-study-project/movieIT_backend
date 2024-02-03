@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Payload, SignUpDto } from './interface';
-import { UpdateDto } from 'src/users/dto/update-user.dto';
+import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -42,6 +42,10 @@ export class AuthService {
 
   changeNickname(id: number, updateDto: UpdateDto) {
     this.userService.update(id, updateDto);
+  }
+
+  changePassword(id: number,  updatePasswordDto: UpdatePasswordDto) {
+    this.userService.update(id, { password: updatePasswordDto.newPassword });
   }
 
   getUserId(authorization: string = '') {

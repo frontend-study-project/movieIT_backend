@@ -31,10 +31,10 @@ export class UsersService {
     return count > 0;
   }
 
-  update(id: number, { username }: UpdateDto) {
+  update(id: number, user: Partial<User>) {
     this.prisma.user.update({
       data: {
-        username
+        ...user
       },
       where: {
         id

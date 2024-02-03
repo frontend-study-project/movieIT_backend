@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Patc
 import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto } from './interface';
 import { AuthGuard } from './auth.guard';
-import { UpdateDto } from 'src/users/dto/update-user.dto';
+import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -30,6 +30,14 @@ export class AuthController {
     @Body() updateDto: UpdateDto,
   ) {
     this.authService.changeNickname(id, updateDto);
+  }
+
+  @Patch('user/:id/change-password')
+  changePassword(
+    @Param('id') id: number,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
+    this.authService.changePassword(id, updatePasswordDto);
   }
 
 
