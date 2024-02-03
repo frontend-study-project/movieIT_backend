@@ -13,4 +13,20 @@ export class UsersService {
       }
     })
   }
+
+  save(user: User) {
+    this.prisma.user.create({
+      data: user
+    })
+  }
+
+  async isExistId(id: number) {
+    const count = await this.prisma.user.count({
+      where: {
+        id
+      }
+    });
+
+    return count > 0;
+  }
 }

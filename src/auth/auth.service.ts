@@ -1,8 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Payload } from './interface';
+import { Payload, SignUpDto } from './interface';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +25,18 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload)
     }
+  }
+
+  signUp(signUpDto: SignUpDto) {
+    this.userService.save(signUpDto);
+  }
+
+  checkId(id: number) {
+    const existed = this.userService.isExistId(id);
+
+    if (!existed) return;
+
+    throw new HttpException('중복 된 아이디입니다.', HttpStatus.BAD_REQUEST);
   }
 
   getUserId(authorization: string = '') {

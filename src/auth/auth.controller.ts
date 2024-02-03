@@ -1,7 +1,8 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from './interface';
+import { SignInDto, SignUpDto } from './interface';
 import { AuthGuard } from './auth.guard';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -9,8 +10,18 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  siginIn(@Body() signInDto: SignInDto) {
+  signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @Post('join')
+  signup(@Body() signUpDto: SignUpDto) {
+    this.authService.signUp(signUpDto);
+  }
+
+  @Post('duplication-check')
+  checkId(@Body() id: number) {
+    this.authService.checkId(id);
   }
 
   @UseGuards(AuthGuard)
