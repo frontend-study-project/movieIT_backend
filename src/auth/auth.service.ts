@@ -27,7 +27,7 @@ export class AuthService {
     }
   }
 
-  getId(authorization: string = '') {
+  getUserId(authorization: string = '') {
     const token = authorization
       .replace('Bearer', '')
       .trim();
