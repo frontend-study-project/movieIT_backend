@@ -8,8 +8,20 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  username String @unique
-  password String
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  username   String      @unique
+  password   String
+  movieLisks MovieLike[]
+
+  @@index([email])
+}
+
+model MovieLike {
+  userId  Int
+  movieId Int
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  like    Boolean
+
+  @@unique([userId, movieId])
 }

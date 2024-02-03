@@ -14,6 +14,7 @@ import { jwtConstants } from './constants';
       signOptions: { expiresIn: jwtConstants.expiresIn }
     })
   ],
+  exports: [AuthService],
   controllers: [AuthController],
   providers: [AuthService]
 })
