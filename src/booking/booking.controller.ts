@@ -8,7 +8,6 @@ export class BookingController {
   constructor(private bookingService: BookingService) { }
 
   @Get('user/:id')
-  @UseGuards(AuthGuard)
   getBookingListById(
     @Param('id') userId: number,
     @Query('type') type: BookingSearchType,

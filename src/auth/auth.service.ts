@@ -44,7 +44,7 @@ export class AuthService {
     this.userService.update(id, updateDto);
   }
 
-  changePassword(id: number,  updatePasswordDto: UpdatePasswordDto) {
+  changePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
     this.userService.update(id, { password: updatePasswordDto.newPassword });
   }
 

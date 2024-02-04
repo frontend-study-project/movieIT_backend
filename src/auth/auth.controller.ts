@@ -1,49 +1,48 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto } from './interface';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard, Public } from './auth.guard';
 import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
-import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
+  @Public()
   @Post('join')
   signup(@Body() signUpDto: SignUpDto) {
     this.authService.signUp(signUpDto);
   }
 
-  @Post('duplication-check')
-  checkId(@Body() id: number) {
-    this.authService.checkId(id);
+  @Public()
+  @Get('duplication-check/:id')
+  checkId(@Param('id') id: string) {
+    this.authService.checkId(Number(id));
   }
 
-  @UseGuards(AuthGuard)
   @Patch('user/:id')
   changeNickname(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateDto: UpdateDto,
   ) {
-    this.authService.changeNickname(id, updateDto);
+    this.authService.changeNickname(Number(id), updateDto);
   }
 
-  @UseGuards(AuthGuard)
   @Patch('user/:id/change-password')
   changePassword(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    this.authService.changePassword(id, updatePasswordDto);
+    this.authService.changePassword(Number(id), updatePasswordDto);
   }
 
-  @UseGuards(AuthGuard)
   @Get('user')
   profile(@Req() req) {
     return req.user;
