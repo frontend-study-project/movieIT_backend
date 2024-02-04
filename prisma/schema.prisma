@@ -10,7 +10,7 @@ datasource db {
 model User {
   id         Int         @id @default(autoincrement())
   userId     String      @unique
-  username   String      @unique
+  nickname   String      @unique
   password   String
   movieLisks MovieLike[]
   Booking    Booking[]

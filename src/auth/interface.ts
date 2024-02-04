@@ -3,7 +3,7 @@ import { User } from "@prisma/client";
 export type SignInDto = Pick<User, 'userId' | 'password'>;
 
 export type SignUpDto = User & {
-  passwordCheck: User['password'];
+  passwordConfirm: User['password'];
 }
 
 export type Payload = {

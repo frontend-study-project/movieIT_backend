@@ -16,9 +16,11 @@ export class UsersService {
     })
   }
 
-  save(user: User) {
+  async save(user: SignUpDto) {
     user.password = bcrypt.hashSync(user.password, 10);
-    this.prisma.user.create({
+    delete user.passwordConfirm;
+
+    await this.prisma.user.create({
       data: user
     })
   }
