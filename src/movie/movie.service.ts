@@ -31,7 +31,7 @@ export class MovieService {
       ));
 
     res.setHeader('totalPages', String(data.totalPages));
-    const userId = this.authService.getId(authorization);
+    const userId = this.authService.getUserId(authorization);
 
     if (!userId) return data.results;
 
@@ -56,5 +56,23 @@ export class MovieService {
             : result.reason
         ))
       ));
+  }
+
+  async getMovieImages(moveId: number) {
+    const { data } = await firstValueFrom(this.httpService
+      .get<MovieImagesResponse>(`/movie/${moveId}/images?include_image_language=ko`, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${process.env.MOVIE_READ_API}`
+        }
+      })
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw '에러 발생';
+        })
+      ));
+
+    return data;
   }
 }

@@ -19,3 +19,7 @@ interface MovieListResponse {
   totalResults: number;
   results: Movie[];
 }
+
+interface MovieImagesResponse {
+  posters: { file_path: string }[];
+}

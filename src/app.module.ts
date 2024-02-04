@@ -5,12 +5,14 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { MovieModule } from './movie/movie.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     MovieModule,
+    BookingModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.local']
     }),

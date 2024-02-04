@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { MovieController } from './movie.controller';
-import { MovieService } from './movie.service';
+import { BookingController } from './booking.controller';
+import { BookingService } from './booking.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from 'src/auth/auth.module';
 import { PrismaService } from 'src/prisma.service';
+import { MovieModule } from 'src/movie/movie.module';
 
 @Module({
   imports: [
@@ -15,10 +15,9 @@ import { PrismaService } from 'src/prisma.service';
       }),
       inject: [ConfigService],
     }),
-    AuthModule,
+    MovieModule,
   ],
-  exports: [MovieService],
-  controllers: [MovieController],
-  providers: [MovieService, PrismaService]
+  controllers: [BookingController],
+  providers: [BookingService, PrismaService]
 })
-export class MovieModule { }
+export class BookingModule { }
