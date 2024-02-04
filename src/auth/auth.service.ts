@@ -12,8 +12,8 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
 
-  async signIn(email: string, pass: string) {
-    const user = await this.userService.findOne(email);
+  async signIn(userId: string, pass: string) {
+    const user = await this.userService.findOne(userId);
     const isMatch = await bcrypt.compare(pass, user?.password);
 
     if (!isMatch) {
@@ -28,8 +28,8 @@ export class AuthService {
     }
   }
 
-  signUp(signUpDto: SignUpDto) {
-    this.userService.save(signUpDto);
+  async signUp(signUpDto: SignUpDto) {
+    await this.userService.save(signUpDto);
   }
 
   async checkId(id: number) {

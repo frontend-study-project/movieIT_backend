@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 
-export type SignInDto = Pick<User, 'email' | 'password'>;
+export type SignInDto = Pick<User, 'userId' | 'password'>;
 
 export type SignUpDto = User & {
   passwordCheck: User['password'];
