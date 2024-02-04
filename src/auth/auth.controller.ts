@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto } from './interface';
 import { AuthGuard } from './auth.guard';
 import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -40,5 +41,11 @@ export class AuthController {
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     this.authService.changePassword(id, updatePasswordDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('user')
+  profile(@Req() req) {
+    return req.user;
   }
 }
