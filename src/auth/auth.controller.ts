@@ -24,6 +24,7 @@ export class AuthController {
     this.authService.checkId(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('user/:id')
   changeNickname(
     @Param('id') id: number,
@@ -32,18 +33,12 @@ export class AuthController {
     this.authService.changeNickname(id, updateDto);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('user/:id/change-password')
   changePassword(
     @Param('id') id: number,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     this.authService.changePassword(id, updatePasswordDto);
-  }
-
-
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user
   }
 }
