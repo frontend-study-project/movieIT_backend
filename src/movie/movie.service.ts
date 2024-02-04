@@ -15,7 +15,7 @@ export class MovieService {
     private authService: AuthService,
   ) { }
 
-  async getMovies(page: number, res: Response, authorization?: string) {
+  async getMovies(page: number, res: Response, authorization?: string): Promise<Movie[]> {
     const { data } = await firstValueFrom(this.httpService
       .get<MovieListResponse>(`/movie/now_playing?language=ko-KR&region=KR&page=${page}`, {
         headers: {
