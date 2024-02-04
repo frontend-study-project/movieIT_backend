@@ -32,8 +32,8 @@ export class AuthService {
     this.userService.save(signUpDto);
   }
 
-  checkId(id: number) {
-    const existed = this.userService.isExistId(id);
+  async checkId(id: number) {
+    const existed = await this.userService.isExistId(id);
 
     if (!existed) return;
 
