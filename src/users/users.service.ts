@@ -25,10 +25,10 @@ export class UsersService {
     })
   }
 
-  async isExistId(id: number) {
+  async isExistUserId(userId: string) {
     const count = await this.prisma.user.count({
       where: {
-        id
+        userId
       }
     });
 

@@ -22,9 +22,9 @@ export class AuthController {
   }
 
   @Public()
-  @Get('duplication-check/:id')
-  checkId(@Param('id') id: string) {
-    this.authService.checkId(Number(id));
+  @Get('duplication-check/:userId')
+  checkId(@Param('userId') userId: string) {
+    this.authService.checkUserId(userId);
   }
 
   @Patch('user/:id')
