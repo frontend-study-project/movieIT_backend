@@ -40,12 +40,17 @@ export class UsersService {
       user.password = bcrypt.hashSync(user.password, 10);
     }
 
-    this.prisma.user.update({
+    return this.prisma.user.update({
       data: {
         ...user
       },
       where: {
         id
+      },
+      select: {
+        id: true,
+        nickname: true,
+        userId: true,
       }
     })
   }

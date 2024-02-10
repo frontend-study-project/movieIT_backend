@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   changeNickname(id: number, updateDto: UpdateDto) {
-    this.userService.update(id, updateDto);
+    return this.userService.update(id, updateDto);
   }
 
   changePassword(id: number, updatePasswordDto: UpdatePasswordDto) {

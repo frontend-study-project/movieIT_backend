@@ -32,7 +32,7 @@ export class AuthController {
     @Param('id') id: string,
     @Body() updateDto: UpdateDto,
   ) {
-    this.authService.changeNickname(Number(id), updateDto);
+    return this.authService.changeNickname(Number(id), updateDto);
   }
 
   @Patch('user/:id/change-password')
