@@ -9,10 +9,10 @@ export class BookingController {
 
   @Get('user/:id')
   getBookingListById(
-    @Param('id') userId: number,
+    @Param('id') id: string,
     @Query('type') type: BookingSearchType,
     @Query('date') date?: string,
   ) {
-    this.bookingService.getBookingListById({ userId, type, date });
+    this.bookingService.getBookingListById({ userId: Number(id), type, date });
   }
 }

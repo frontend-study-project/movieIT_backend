@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { BookingResponse, BookingSearchParam } from './interface';
 import { MovieService } from 'src/movie/movie.service';
+import { getFormattedDateTime } from 'src/utils/Date';
 
 @Injectable()
 export class BookingService {
