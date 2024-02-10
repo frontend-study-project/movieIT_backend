@@ -4,6 +4,7 @@ import { jwtConstants } from "./constants";
 import { UserInfo } from "src/users/interface";
 import { Request } from 'express';
 import { Reflector } from "@nestjs/core";
+import { UsersService } from "src/users/users.service";
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -11,6 +12,7 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
+    private userService: UsersService,
     private jwtService: JwtService,
     private reflector: Reflector,
   ) { }
@@ -39,7 +41,9 @@ export class AuthGuard implements CanActivate {
           secret: process.env.jwt_secret
         }
       );
-      request['user'] = payload.user;
+
+      const user = await this.userService.findOne(payload.user.userId)
+      request['user'] = user;
     } catch {
       throw new UnauthorizedException();
     }
