@@ -40,7 +40,7 @@ export class AuthController {
     @Param('id') id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    this.authService.changePassword(Number(id), updatePasswordDto);
+    return this.authService.changePassword(Number(id), updatePasswordDto);
   }
 
   @Get('user')

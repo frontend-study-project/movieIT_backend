@@ -1,10 +1,10 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Payload, SignUpDto } from './interface';
 import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
-import { jwtConstants } from './constants';
+import { CURRENT_PASSWORD_EQUAL, CURRENT_PASSWORD_NOT_EQUAL } from 'src/error/error-code';
 
 @Injectable()
 export class AuthService {
@@ -48,8 +48,21 @@ export class AuthService {
     return this.userService.update(id, updateDto);
   }
 
-  changePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
-    this.userService.update(id, { password: updatePasswordDto.newPassword });
+  async changePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
+    const user = await this.userService.findOneById(id);
+    let isMatch = await bcrypt.compare(updatePasswordDto?.password, user.password);
+
+    if (!isMatch) {
+      throw new BadRequestException(CURRENT_PASSWORD_NOT_EQUAL);
+    }
+
+    isMatch = await bcrypt.compare(updatePasswordDto?.newPassword, user.password);
+
+    if (isMatch) {
+      throw new BadRequestException(CURRENT_PASSWORD_EQUAL);
+    }
+
+    return this.userService.update(id, { password: updatePasswordDto.newPassword });
   }
 
   getUserId(authorization: string = '') {

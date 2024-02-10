@@ -8,6 +8,14 @@ import { SignUpDto } from 'src/auth/interface';
 export class UsersService {
   constructor(private prisma: PrismaService) { }
 
+  async findOneById(id: number): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: {
+        id
+      }
+    })
+  }
+
   async findOne(userId: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: {
@@ -33,6 +41,10 @@ export class UsersService {
     });
 
     return count > 0;
+  }
+
+  updatePassword(id: number, user: Partial<User>) {
+    return this.update(id, user);
   }
 
   update(id: number, user: Partial<User>) {
