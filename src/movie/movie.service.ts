@@ -182,19 +182,28 @@ export class MovieService {
         ],
       },
     ]
-    theaterList.forEach((ele) => {
-      this.prisma.theater.create({
-        data: {id: ele.id , name: ele.area_depth1}
+    theaterList.map((ele) => {
+      return this.prisma.theater.create({
+        data: {  name: ele.area_depth1}
       })
     })
 
-    theaterList.forEach((ele1) => {
-      ele1.area_depth2.forEach((ele2) => {
-        this.prisma.screen.create({
-          data: {theaterId: ele1.id, name: ele2.txt}
+    const test = theaterList.map((ele1) => {
+      return ele1.area_depth2.map((ele2) => {
+        return this.prisma.screen.create({
+          data: {  name: ele2.txt}
         })
       })
-    })
+    }).reduce((acc, cur) =>  [...acc, ...cur], []);
 
+    Promise.allSettled(test)
+    .then((result) => { 
+      result.forEach(ele => console.log( ele.status === 'fulfilled' ? ele.value : ele.reason))
+     })
+    console.log('dkfdsfka');
+  }
+
+  async getTheater() {
+    return this.prisma.screen.findMany()
   }
 }
