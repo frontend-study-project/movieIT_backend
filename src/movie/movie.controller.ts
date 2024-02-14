@@ -5,7 +5,9 @@ import { Public } from 'src/auth/auth.guard';
 
 @Controller('movie')
 export class MovieController {
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService) {
+    
+   }
 
   @Public()
   @HttpCode(HttpStatus.OK)
