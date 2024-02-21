@@ -24,13 +24,6 @@ export class BookingService {
           date: whereDate
         }
       },
-      include: {
-        theater: {
-          select: {
-            name: true
-          }
-        }
-      }
     });
 
     return Promise.allSettled(
