@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto, SignUpDto } from './interface';
+import { SignInCineDto, SignInDto, SignUpCineDto, SignUpDto } from './interface';
 import { Public } from './auth.guard';
 import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
 
@@ -19,6 +19,19 @@ export class AuthController {
   @Post('join')
   signup(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('cine/login')
+  signInByCine(@Body() signInDto: SignInCineDto) {
+    return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @Public()
+  @Post('cine/join')
+  signupByCine(@Body() signUpDto: SignUpCineDto) {
+    return this.authService.signUpByCine(signUpDto);
   }
 
   @Public()

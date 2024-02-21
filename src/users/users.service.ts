@@ -28,8 +28,13 @@ export class UsersService {
     user.password = bcrypt.hashSync(user.password, 10);
     delete user.passwordConfirm;
 
-    await this.prisma.user.create({
-      data: user
+    return this.prisma.user.create({
+      data: user,
+      select: {
+        id: true,
+        nickname: true,
+        userId: true,
+      },
     })
   }
 

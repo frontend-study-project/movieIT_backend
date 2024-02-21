@@ -2,7 +2,7 @@ import { BadRequestException, HttpException, HttpStatus, Injectable, Unauthorize
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Payload, SignUpDto } from './interface';
+import { Payload, SignUpCineDto, SignUpDto } from './interface';
 import { UpdateDto, UpdatePasswordDto } from 'src/users/dto/update-user.dto';
 import { CURRENT_PASSWORD_EQUAL, CURRENT_PASSWORD_NOT_EQUAL } from 'src/error/error-code';
 
@@ -15,10 +15,10 @@ export class AuthService {
 
   async signIn(userId: string, pass: string) {
     const user = await this.userService.findOne(userId);
-    const isMatch = await bcrypt.compare(pass, user?.password);
+    const isMatch = await bcrypt.compare(pass, user?.password || '');
 
     if (!isMatch) {
-      throw new UnauthorizedException();
+      throw new HttpException('유저정보가 존재하지 않습니다.', HttpStatus.UNAUTHORIZED);
     }
 
     const { password, ...result } = user;
@@ -33,7 +33,24 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto) {
-    await this.userService.save(signUpDto);
+    return this.userService.save(signUpDto);
+  }
+
+  async signUpByCine(signUpDto: SignUpCineDto) {
+    if (await this.userService.isExistUserId(signUpDto.email)) {
+      throw new HttpException('이미 존재하는 아이디입니다.', HttpStatus.BAD_REQUEST);
+    }
+
+    if (signUpDto.password !== signUpDto.passwordCheck) {
+      throw new HttpException('비밀번호가 일치하지 않습니다.', HttpStatus.BAD_REQUEST);
+    }
+
+    return this.userService.save({
+      userId: signUpDto.email,
+      password: signUpDto.password,
+      nickname: signUpDto.email,
+      passwordConfirm: signUpDto.passwordCheck
+    });
   }
 
   async checkUserId(userId: string) {
