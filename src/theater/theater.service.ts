@@ -129,7 +129,7 @@ export class TheaterService {
 
     Promise.allSettled(test)
       .then((result) => {
-        result.forEach(ele => console.log(ele.status === 'fulfilled' ? ele.value : ele.reason))
+        result.forEach(ele => ele.status === 'fulfilled' ? ele.value : ele.reason)
       })
   }
 

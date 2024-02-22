@@ -11,6 +11,18 @@ interface Movie {
   releaseDate: string;
   title: string;
   like?: boolean;
+  certification?: string;
+}
+
+interface CertificationListResponse {
+  results: {
+    iso_3166_1: string,
+    release_dates: [
+      {
+        certification: "",
+      }
+    ]
+  }[]
 }
 
 interface MovieListResponse {

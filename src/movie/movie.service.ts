@@ -30,6 +30,20 @@ export class MovieService {
         })
       ));
 
+    await Promise.allSettled(data.results.map((movie) => {
+      return this.httpService.axiosRef.get<CertificationListResponse>(`/movie/${movie.id}/release_dates`, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${process.env.MOVIE_READ_API}`,
+        }
+      }).then(({ data }) => {
+        movie.certification = data.results
+          ?.find(({ iso_3166_1 }) => iso_3166_1 === 'KR')
+          ?.release_dates[0]
+          ?.certification || 'all';
+      })
+    }));
+
     res.setHeader('totalPages', String(data.totalPages));
     const userId = this.authService.getUserId(authorization);
 
