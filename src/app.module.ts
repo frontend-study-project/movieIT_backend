@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { MovieModule } from './movie/movie.module';
 import { BookingModule } from './booking/booking.module';
+import { TheaterModule } from './theater/theater.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 
@@ -15,6 +16,7 @@ import { AuthGuard } from './auth/auth.guard';
     UsersModule,
     MovieModule,
     BookingModule,
+    TheaterModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.local']
     }),

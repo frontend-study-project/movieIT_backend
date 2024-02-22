@@ -28,26 +28,22 @@ model MovieLike {
 }
 
 model Theater {
-  id       Int      @id @default(autoincrement())
-  name     String 
-
-} 
+  id   Int    @id @default(autoincrement())
+  name String
+}
 
 model Screen {
-  id       Int       @id @default(autoincrement())
-  name     String 
-
-
-
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model Booking {
-  id        String  @id
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId    Int
-  movieId   Int
+  id      String @id
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  Int
+  movieId Int
 
-  date      String
-  seat      String
-  money     String
+  date  String
+  seat  String
+  money String
 }
