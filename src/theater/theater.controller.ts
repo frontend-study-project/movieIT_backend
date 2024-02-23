@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, Headers, Res } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus } from '@nestjs/common';
 import { Public } from 'src/auth/auth.guard';
 import { TheaterService } from 'src/theater/theater.service';
 
