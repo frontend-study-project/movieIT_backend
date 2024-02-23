@@ -37,6 +37,10 @@ export class AuthService {
       throw new HttpException('이미 존재하는 아이디입니다.', HttpStatus.BAD_REQUEST);
     }
 
+    if (await this.userService.isExistNickname(signUpDto.nickname)) {
+      throw new HttpException('이미 존재하는 닉네임입니다.', HttpStatus.BAD_REQUEST);
+    }
+
     if (signUpDto.password !== signUpDto.passwordConfirm) {
       throw new HttpException('비밀번호가 일치하지 않습니다.', HttpStatus.BAD_REQUEST);
     }

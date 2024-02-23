@@ -48,6 +48,16 @@ export class UsersService {
     return count > 0;
   }
 
+  async isExistNickname(nickname: string) {
+    const count = await this.prisma.user.count({
+      where: {
+        nickname
+      }
+    });
+
+    return count > 0;
+  }
+
   updatePassword(id: number, user: Partial<User>) {
     return this.update(id, user);
   }
