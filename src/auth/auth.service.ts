@@ -84,7 +84,9 @@ export class AuthService {
 
     if (!token) return null;
 
-    const { sub: userId } = this.jwtService.verify<Payload>(token);
+    const { sub: userId } = this.jwtService.verify<Payload>(token, {
+      secret: process.env.jwt_secret,
+    });
     return userId;
   }
 }

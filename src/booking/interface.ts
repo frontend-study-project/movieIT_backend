@@ -11,3 +11,13 @@ export type BookingSearchParam = {
 export type BookingResponse = Booking & {
   poster?: string;
 }
+
+export type ReservationDto = {
+  movieId: number;
+  theaterId: number;
+  auditoriumId: number;
+  people: number;
+  seat: string[];
+  date: string;
+  money: number;
+}

@@ -38,12 +38,14 @@ model Screen {
 }
 
 model Booking {
-  id      String @id
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId  Int
-  movieId Int
-
-  date  String
-  seat  String
-  money String
+  id           String @id
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       Int
+  movieId      Int
+  theaterId    Int
+  auditoriumId Int
+  people       Int
+  date         String
+  seat         String
+  money        Int
 }

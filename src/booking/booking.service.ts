@@ -1,9 +1,10 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { BookingResponse, BookingSearchParam } from './interface';
+import { BookingResponse, BookingSearchParam, ReservationDto } from './interface';
 import { MovieService } from 'src/movie/movie.service';
 import { getFormattedDateTime } from 'src/utils/Date';
+import { User } from '@prisma/client';
+import { generateBookingId } from 'src/utils/PatternGenerator';
 
 @Injectable()
 export class BookingService {
@@ -39,5 +40,20 @@ export class BookingService {
         (result as PromiseFulfilledResult<BookingResponse>).value
       ))
     ));
+  }
+
+  reserve(reservationDto: ReservationDto, user: User) {
+    return this.prisma.booking.create({
+      data: {
+        ...reservationDto,
+        id: generateBookingId(),
+        seat: reservationDto.seat.join(','),
+        user: {
+          connect: {
+            id: user.id
+          }
+        },
+      },
+    })
   }
 }
