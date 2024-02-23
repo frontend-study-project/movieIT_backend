@@ -33,24 +33,15 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto) {
-    return this.userService.save(signUpDto);
-  }
-
-  async signUpByCine(signUpDto: SignUpCineDto) {
-    if (await this.userService.isExistUserId(signUpDto.email)) {
+    if (await this.userService.isExistUserId(signUpDto.userId)) {
       throw new HttpException('이미 존재하는 아이디입니다.', HttpStatus.BAD_REQUEST);
     }
 
-    if (signUpDto.password !== signUpDto.passwordCheck) {
+    if (signUpDto.password !== signUpDto.passwordConfirm) {
       throw new HttpException('비밀번호가 일치하지 않습니다.', HttpStatus.BAD_REQUEST);
     }
 
-    return this.userService.save({
-      userId: signUpDto.email,
-      password: signUpDto.password,
-      nickname: signUpDto.email,
-      passwordConfirm: signUpDto.passwordCheck
-    });
+    return this.userService.save(signUpDto);
   }
 
   async checkUserId(userId: string) {

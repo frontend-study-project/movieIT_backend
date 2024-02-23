@@ -22,19 +22,6 @@ export class AuthController {
   }
 
   @Public()
-  @HttpCode(HttpStatus.OK)
-  @Post('cine/login')
-  signInByCine(@Body() signInDto: SignInCineDto) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
-  }
-
-  @Public()
-  @Post('cine/join')
-  signupByCine(@Body() signUpDto: SignUpCineDto) {
-    return this.authService.signUpByCine(signUpDto);
-  }
-
-  @Public()
   @Get('duplication-check/:userId')
   checkId(@Param('userId') userId: string) {
     this.authService.checkUserId(userId);
