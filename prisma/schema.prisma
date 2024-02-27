@@ -30,11 +30,14 @@ model MovieLike {
 model Theater {
   id   Int    @id @default(autoincrement())
   name String
+  screen Screen[]
 }
 
 model Screen {
   id   Int    @id @default(autoincrement())
   name String
+  theaterId Int
+  theater Theater @relation(fields: [theaterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Booking {

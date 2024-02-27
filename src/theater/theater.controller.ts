@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { Public } from 'src/auth/auth.guard';
 import { TheaterService } from 'src/theater/theater.service';
 
@@ -10,6 +10,7 @@ export class TheaterController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
+  @Get()
   getTheater() {
     return this.theaterService.getTheater();
   }
