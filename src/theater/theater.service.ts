@@ -23,7 +23,7 @@ export class TheaterService {
     return Promise.allSettled(theaterList.map((ele1) => {
       return ele1.area_depth2.map((ele2) => {
         return this.prisma.screen.create({
-          data: { 
+          data: {
             name: ele2.txt,
             theater: {
               connect: {
@@ -66,4 +66,12 @@ export class TheaterService {
           .map((result) => (result as PromiseFulfilledResult<TheaterResponse>).value);
       });
   }
-}
+
+  getScreenById(screenId: number) {
+    return this.prisma.screen.findFirst({
+      where: {
+        id: screenId
+      }
+    });
+  }
+} 
