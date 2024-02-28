@@ -72,9 +72,27 @@ export class MovieService {
       ));
   }
 
-  async getMovieImages(moveId: number) {
+  async getMovieImages(movieId: number) {
     const { data } = await firstValueFrom(this.httpService
-      .get<MovieImagesResponse>(`/movie/${moveId}/images?include_image_language=ko`, {
+      .get<MovieImagesResponse>(`/movie/${movieId}/images?include_image_language=ko`, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${process.env.MOVIE_READ_API}`
+        }
+      })
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw '에러 발생';
+        })
+      ));
+
+    return data;
+  }
+
+  async getMovieDetail(movieId: number) {
+    const { data } = await firstValueFrom(this.httpService
+      .get<Movie>(`/movie/${movieId}?language=ko-KR`, {
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${process.env.MOVIE_READ_API}`

@@ -15,9 +15,15 @@ export type BookingResponse = Booking & {
 export type ReservationDto = {
   movieId: number;
   theaterId: number;
-  auditoriumId: number;
+  auditorium: string;
   people: number;
   seat: string[];
   date: string;
   money: number;
+}
+
+export type ReservationResponse = Booking & {
+  title: string;
+  reserveDate: string;
+  theater: string;
 }

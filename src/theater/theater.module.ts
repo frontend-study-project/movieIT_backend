@@ -17,6 +17,7 @@ import { PrismaService } from 'src/prisma.service';
     }),
     AuthModule,
   ],
+  exports: [TheaterService],
   controllers: [TheaterController],
   providers: [TheaterService, PrismaService]
 })

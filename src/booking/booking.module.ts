@@ -5,6 +5,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma.service';
 import { MovieModule } from 'src/movie/movie.module';
+import { TheaterModule } from 'src/theater/theater.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MovieModule } from 'src/movie/movie.module';
       inject: [ConfigService],
     }),
     MovieModule,
+    TheaterModule,
   ],
   controllers: [BookingController],
   providers: [BookingService, PrismaService]
