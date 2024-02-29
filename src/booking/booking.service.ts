@@ -85,7 +85,7 @@ export class BookingService {
         reservation.title = movie.title;
 
         return Promise.all([
-          this.theaterService.getScreenById(theaterId),
+          this.theaterService.getTheaterById(theaterId),
           reservation,
         ])
       })

@@ -67,11 +67,22 @@ export class TheaterService {
       });
   }
 
-  getScreenById(screenId: number) {
+  getTheaterById(screenId: number) {
     return this.prisma.screen.findFirst({
       where: {
         id: screenId
+      },
+      include: {
+        theater: true
       }
-    });
+    }).then((result) => {
+      return {
+        id: result.id,
+        name: result.name,
+        region: result.theater.name,
+        location_LO: 127.0263387,
+        location_LA: 37.50166171
+      }
+    })
   }
 } 
