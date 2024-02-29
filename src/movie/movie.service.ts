@@ -40,7 +40,7 @@ export class MovieService {
         movie.certification = data.results
           ?.find(({ iso_3166_1 }) => iso_3166_1 === 'KR')
           ?.release_dates[0]
-          ?.certification || 'all';
+          ?.certification || 'All';
       })
     }));
 
