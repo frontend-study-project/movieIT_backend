@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Param, Query } from '@nestjs/common';
 import { Public } from 'src/auth/auth.guard';
 import { TheaterService } from 'src/theater/theater.service';
 
@@ -13,6 +13,15 @@ export class TheaterController {
   @Get()
   getTheater() {
     return this.theaterService.getTheater();
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Get("/list")
+  getTheaterList(
+    @Query("region") region?: string,
+  ) {
+    return this.theaterService.getTheaterList(region);
   }
 
   @Public()

@@ -67,6 +67,27 @@ export class TheaterService {
       });
   }
 
+  getTheaterList(region?: string) {
+    return this.prisma.theater.findMany({
+      where: {
+        name: {
+          contains: region,
+        }
+      },
+      select: {
+        id: true,
+        name: true,
+        screen: true,
+      }
+    }).then((result) => {
+      return result.map(({ id, name, screen }) => ({
+        id,
+        region: name,
+        theaters: screen.map(({ theaterId, ...rest }) => rest)
+      }))
+    });
+  }
+
   getTheaterById(screenId: number) {
     return this.prisma.screen.findFirst({
       where: {
