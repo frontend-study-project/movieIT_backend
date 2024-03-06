@@ -24,6 +24,7 @@ export class BookingController {
     return this.bookingService.reserve(reservationDto, req.user);
   }
 
+  // 영화, 극장, 시각별 좌석 수
   @Get('booking/movie/:movieId/theater/:theaterId')
   getBookingListByMovieAndTheater(
     @Param('movieId') movieId: string,
@@ -34,6 +35,20 @@ export class BookingController {
       movieId: Number(movieId),
       theaterId: Number(theaterId),
       time: Number(time)
+    });
+  }
+
+  // 영화, 극장, 시간에 따른 좌석 목록 조회
+  @Get('booking/movie/:movieId/theater/:theaterId/seat')
+  getSeatListByMovieAndTheater(
+    @Param('movieId') movieId: string,
+    @Param('theaterId') theaterId: string,
+    @Query('date') date: string,
+  ) {
+    return this.bookingService.getSeatListByMovieAndTheater({
+      movieId: Number(movieId),
+      theaterId: Number(theaterId),
+      date
     });
   }
 }
