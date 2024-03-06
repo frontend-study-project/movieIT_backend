@@ -6,6 +6,7 @@ import { getFormattedDateTime } from 'src/utils/Date';
 import { User } from '@prisma/client';
 import { generateBookingId } from 'src/utils/PatternGenerator';
 import { TheaterService } from 'src/theater/theater.service';
+import { SearchBookingSeatListRequest } from './dto/Booking';
 
 @Injectable()
 export class BookingService {
@@ -93,5 +94,34 @@ export class BookingService {
         reservation.theater = screen.name;
         return reservation;
       });
+  }
+
+  getBookingListByMovieAndTheater({ movieId, theaterId, time }: SearchBookingSeatListRequest) {
+    return this.prisma.booking
+      .findMany({
+        where: {
+          movieId: movieId,
+          theaterId: theaterId,
+        },
+        select: {
+          date: true,
+          seat: true,
+        }
+      })
+      .then((bookingList) => (
+        bookingList
+          .filter((booking) => {
+            const reservationDate = new Date(booking.date);
+            const now = new Date();
+            return reservationDate.getHours() === now.getHours() &&
+              reservationDate.getFullYear() === now.getFullYear() &&
+              reservationDate.getMonth() === now.getMonth() &&
+              reservationDate.getDate() === now.getDate();
+          })
+          .reduce((acc, { date, seat }) => {
+            acc[date] = (acc[date] || 0) + seat.split(',').length;
+            return acc;
+          }, {})
+      ));
   }
 }
