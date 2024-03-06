@@ -113,7 +113,7 @@ export class BookingService {
           .filter((booking) => {
             const reservationDate = new Date(booking.date);
             const now = new Date();
-            return reservationDate.getHours() === now.getHours() &&
+            return reservationDate.getHours() === time &&
               reservationDate.getFullYear() === now.getFullYear() &&
               reservationDate.getMonth() === now.getMonth() &&
               reservationDate.getDate() === now.getDate();
