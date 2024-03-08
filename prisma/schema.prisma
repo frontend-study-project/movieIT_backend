@@ -13,6 +13,7 @@ model User {
   nickname   String      @unique
   password   String
   movieLisks MovieLike[]
+  theaterLisks TheaterLike[]
   Booking    Booking[]
 
   @@index([userId])
@@ -27,6 +28,15 @@ model MovieLike {
   @@unique([userId, movieId])
 }
 
+model TheaterLike {
+  userId  Int
+  theaterId Int
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  like    Boolean
+
+  @@unique([userId, theaterId])
+}
+
 model Theater {
   id     Int      @id @default(autoincrement())
   name   String
@@ -35,7 +45,10 @@ model Theater {
 
 model Screen {
   id        Int       @id @default(autoincrement())
-  name      String
+  name String
+  lat String
+  lng String
+  loc String
   theaterId Int
   theater   Theater   @relation(fields: [theaterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Booking   Booking[]
