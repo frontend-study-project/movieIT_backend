@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nest
 import { BookingService } from './booking.service';
 import { BookingSearchType, ReservationDto } from './interface';
 import { User } from '@prisma/client';
+import { Public } from 'src/auth/auth.guard';
 
 @Controller()
 export class BookingController {
@@ -25,6 +26,7 @@ export class BookingController {
   }
 
   // 영화, 극장, 시각별 좌석 수
+  @Public()
   @Get('booking/movie/:movieId/theater/:theaterId')
   getBookingListByMovieAndTheater(
     @Param('movieId') movieId: string,

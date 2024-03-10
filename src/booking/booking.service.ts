@@ -129,9 +129,11 @@ export class BookingService {
     return this.prisma.booking
       .findMany({
         where: {
-          movieId: movieId,
-          theaterId: theaterId,
-          date
+          AND: {
+            movieId: movieId,
+            theaterId: theaterId,
+            date
+          }
         },
         select: {
           date: true,
