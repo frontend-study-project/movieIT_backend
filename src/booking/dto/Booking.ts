@@ -1,7 +1,7 @@
 export interface SearchBookingSeatListRequest {
   movieId: number;
   theaterId: number;
-  time: number;
+  hour: number;
 }
 
 export interface SearchSeatListRequest {
