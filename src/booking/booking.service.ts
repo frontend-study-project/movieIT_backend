@@ -43,6 +43,7 @@ export class BookingService {
         const detail = await this.movieService.getMovieDetail(booking.movieId);
         (booking as BookingResponse).poster = images.posters[0]?.file_path;
         (booking as BookingResponse).movie = detail.title;
+        (booking as BookingResponse).theater = booking.screen.name;
       } catch { }
     }
 

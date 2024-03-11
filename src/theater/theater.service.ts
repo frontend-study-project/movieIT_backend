@@ -5,7 +5,7 @@ import { TheaterResponse } from './interface';
 
 @Injectable()
 export class TheaterService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   /* data.ts 영화관 데이터 DB Setting */
   async saveTheater() {
@@ -16,32 +16,32 @@ export class TheaterService {
     await Promise.allSettled(
       theaterList.map((ele) => {
         return this.prisma.theater.create({
-          data: { name: ele.area_depth1 },
+          data: {
+            name: ele.area_depth1,
+            id: ele.id,
+          },
         });
       }),
     );
 
-    return Promise.allSettled(
-      theaterList
-        .map((ele1) => {
-          return ele1.area_depth2.map((ele2) => {
-            return this.prisma.screen.create({
-              data: {
-                name: ele2.txt,
-                lat: ele2.lat,
-                lng: ele2.lng,
-                loc: ele2.loc,
-                theater: {
-                  connect: {
-                    id: ele1.id,
-                  },
-                },
+    for await (const theater of theaterList) {
+      for await (const screen of theater.area_depth2) {
+        await this.prisma.screen.create({
+          data: {
+            id: screen.id,
+            name: screen.txt,
+            lat: (screen as any).lat || '',
+            lng: (screen as any).lng || '',
+            loc: (screen as any).loc || '',
+            theater: {
+              connect: {
+                id: theater.id,
               },
-            });
-          });
-        })
-        .reduce((acc, cur) => [...acc, ...cur], []),
-    );
+            },
+          },
+        });
+      }
+    }
   }
 
   /* 영화관 정보 가져오기 */
