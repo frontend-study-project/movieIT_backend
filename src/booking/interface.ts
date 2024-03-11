@@ -10,6 +10,8 @@ export type BookingSearchParam = {
 
 export type BookingResponse = Booking & {
   poster?: string;
+  movie?: string;
+  theater?: string;
 }
 
 export type ReservationDto = {

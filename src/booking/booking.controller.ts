@@ -14,7 +14,7 @@ export class BookingController {
     @Query('type') type: BookingSearchType,
     @Query('date') date?: string,
   ) {
-    this.bookingService.getBookingListById({ userId: Number(id), type, date });
+    return this.bookingService.getBookingListById({ userId: Number(id), type, date });
   }
 
   @Post('reservation')

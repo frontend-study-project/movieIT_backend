@@ -19,7 +19,7 @@ export class BookingService {
   async getBookingListById({ userId, type, date }: BookingSearchParam) {
     const whereDate = type === 'B'
       ? { gte: getFormattedDateTime(new Date()) }
-      : { lte: date };
+      : { lte: getFormattedDateTime(new Date(date)) };
 
     const bookingList = await this.prisma.booking.findMany({
       where: {
@@ -28,21 +28,26 @@ export class BookingService {
           date: whereDate
         }
       },
+      include: {
+        screen: {
+          select: {
+            name: true,
+          }
+        }
+      }
     });
 
-    return Promise.allSettled(
-      bookingList.map(async (booking: BookingResponse) => {
-        try {
-          const images = await this.movieService.getMovieImages(booking.movieId)
-          booking.poster = images.posters[0]?.file_path;
-        } catch { }
-        return booking;
-      })
-    ).then((results) => (
-      results.map((result) => (
-        (result as PromiseFulfilledResult<BookingResponse>).value
-      ))
-    ));
+    for await (const booking of bookingList) {
+      try {
+        const images = await this.movieService.getMovieImages(booking.movieId);
+        const detail = await this.movieService.getMovieDetail(booking.movieId);
+        (booking as BookingResponse).poster = images.posters[0]?.file_path;
+        (booking as BookingResponse).movie = detail.title;
+        (booking as BookingResponse).theater = booking.screen.name;
+      } catch { }
+    }
+
+    return bookingList;
   }
 
   reserve({ theaterId, ...rest }: ReservationDto, user: User) {
