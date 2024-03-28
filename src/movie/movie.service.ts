@@ -25,7 +25,7 @@ export class MovieService {
       })
       .pipe(
         catchError((error: AxiosError) => {
-          this.logger.error(error.response.data);
+          this.logger.error(error?.response);
           throw '에러 발생';
         })
       ));
