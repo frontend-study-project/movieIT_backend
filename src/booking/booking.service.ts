@@ -101,7 +101,7 @@ export class BookingService {
       });
   }
 
-  getBookingListByMovieAndTheater({ movieId, theaterId, time }: SearchBookingSeatListRequest) {
+  getBookingListByMovieAndTheater({ movieId, theaterId, datetime }: SearchBookingSeatListRequest) {
     return this.prisma.booking
       .findMany({
         where: {
@@ -117,7 +117,7 @@ export class BookingService {
         bookingList
           .filter((booking) => {
             const reservationDate = new Date(booking.date);
-            const timeDate = new Date(time);
+            const timeDate = new Date(datetime);
             return reservationDate.getHours() === timeDate.getHours() &&
               reservationDate.getFullYear() === timeDate.getFullYear() &&
               reservationDate.getMonth() === timeDate.getMonth() &&
