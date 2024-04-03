@@ -31,12 +31,12 @@ export class BookingController {
   getBookingListByMovieAndTheater(
     @Param('movieId') movieId: string,
     @Param('theaterId') theaterId: string,
-    @Query('hour') hour: string,
+    @Query('time') time: string,
   ) {
     return this.bookingService.getBookingListByMovieAndTheater({
       movieId: Number(movieId),
       theaterId: Number(theaterId),
-      hour: Number(hour)
+      time
     });
   }
 
