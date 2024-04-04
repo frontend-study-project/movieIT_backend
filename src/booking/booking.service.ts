@@ -116,8 +116,10 @@ export class BookingService {
       .then((bookingList) => (
         bookingList
           .filter((booking) => {
-            const reservationDate = new Date(booking.date);
-            const timeDate = new Date(datetime);
+            const offset = 1000 * 60 * 60 * 9
+            const reservationDate = new Date(new Date(booking.date).getTime() + offset);
+            const timeDate = new Date(new Date(datetime).getTime() + offset);
+
             return reservationDate.getHours() === timeDate.getHours() &&
               reservationDate.getFullYear() === timeDate.getFullYear() &&
               reservationDate.getMonth() === timeDate.getMonth() &&
