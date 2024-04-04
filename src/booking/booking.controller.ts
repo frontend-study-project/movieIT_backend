@@ -53,4 +53,10 @@ export class BookingController {
       date
     });
   }
+
+  @Public()
+  @Get("booking/test")
+  getTest() {
+    return "test";
+  }
 }
