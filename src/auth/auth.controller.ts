@@ -24,7 +24,7 @@ export class AuthController {
   @Public()
   @Get('duplication-check/:userId')
   checkId(@Param('userId') userId: string) {
-    this.authService.checkUserId(userId);
+    return this.authService.checkUserId(userId);
   }
 
   @Patch('user/:id')
